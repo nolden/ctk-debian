@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+
+DH_VERBOSE=0
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/cmake.mk
+
+DEB_CMAKE_EXTRA_FLAGS = \
+	-DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -DCMAKE_BUILD_TYPE:STRING=Debug \
+        -DCMAKE_VERBOSE_MAKEFILE:BOOL=$(DH_VERBOSE) \
+        -DCMAKE_SKIP_RPATH:BOOL=OFF \
+        -DBUILD_TESTING:BOOL=ON \
+        -DCTK_APP_ctkCLIPluginExplorer:BOOL=ON \
+        -DCTK_LIB_ImageProcessing/ITK/Core:BOOL=ON \
+        -DCTK_LIB_Widgets:BOOL=ON \
+        -DCTK_LIB_Scripting/Python/Core:BOOL=OFF \
+        -DCTK_LIB_DICOM/Core:BOOL=OFF \
+        -DCTK_LIB_Visualization/VTK/Core:BOOL=OFF \
+        -DCTK_SUPERBUILD:BOOL=OFF \
+
+
+build/libctk0.1::
+	- cd $(DEB_BUILDDIR) && LD_LIBRARY_PATH=`pwd`/bin:$$LD_LIBRARY_PATH ctest -VV
+
+install/libctk0.1::
+	dh_install -plibctk0.1      debian/tmp/usr/lib/*.so.*                        usr/lib
+	dh_install -plibctk0.1      debian/tmp/usr/lib/*.a                           usr/lib
+
+
+install/libctk-dev::
+	dh_install -plibctk-dev   debian/tmp/usr/include/ctk-0.1/*                   usr/include/ctk
+	dh_install -plibctk-dev   debian/tmp/usr/lib/*.so                            usr/lib
+#	dh_install -plibctk-dev   debian/tmp/usr/lib/ctk-0.1/*.cmake                 usr/lib/ctk-0.1
+
+#install/ctk-examples::
+#	dh_installexamples -popenigtlink-examples Examples/
+
+#install/ctk-doc::
+#	doxygen -u $(DEB_BUILDDIR)/doxygen.config
+#	doxygen $(DEB_BUILDDIR)/doxygen.config
+#	dh_install -plibctk-doc       $(DEB_BUILDDIR)/Documents/Doxygen/html         usr/share/doc/ctk-doc
+
+
+get-orig-source:
+	/bin/sh $(CURDIR)/debian/get-orig-source

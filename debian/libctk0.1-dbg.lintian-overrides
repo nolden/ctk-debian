@@ -1,0 +1,3 @@
+# Upstream is mentioning the "GNU General Public License" in their non-GPL license
+libctk0.1-dbg: copyright-should-refer-to-common-license-file-for-gpl
+

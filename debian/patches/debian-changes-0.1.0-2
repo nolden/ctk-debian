@@ -1,0 +1,59 @@
+Description: Upstream changes introduced in version 0.1.0-2
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ ctk (0.1.0-2) experimental; urgency=low
+ .
+   * Initial release (Closes: #601180)
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Dominique Belhachemi <domibel@debian.org>
+Bug-Debian: http://bugs.debian.org/601180
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- ctk-0.1.0.orig/CMakeLists.txt
++++ ctk-0.1.0/CMakeLists.txt
+@@ -57,6 +57,8 @@ endif()
+ PROJECT(CTK)
+ #-----------------------------------------------------------------------------
+ 
++ADD_SUBDIRECTORY(Utilities/Log4Qt)
++
+ #-----------------------------------------------------------------------------
+ # Library mode: SHARED (default) or STATIC
+ #
+@@ -136,7 +138,7 @@ IF(NOT CTK_INSTALL_BIN_DIR)
+   SET(CTK_INSTALL_BIN_DIR "bin")
+ ENDIF()
+ IF(NOT CTK_INSTALL_LIB_DIR)
+-  SET(CTK_INSTALL_LIB_DIR "lib/ctk-${CTK_MAJOR_VERSION}.${CTK_MINOR_VERSION}")
++  SET(CTK_INSTALL_LIB_DIR "lib")
+ ENDIF()
+ IF(NOT CTK_INSTALL_INCLUDE_DIR)
+   SET(CTK_INSTALL_INCLUDE_DIR "include/ctk-${CTK_MAJOR_VERSION}.${CTK_MINOR_VERSION}")
+--- ctk-0.1.0.orig/Libs/Core/CMakeLists.txt
++++ ctk-0.1.0/Libs/Core/CMakeLists.txt
+@@ -3,7 +3,9 @@ PROJECT(CTKCore)
+ #
+ # 3rd party dependencies
+ #
+-INCLUDE(${Log4Qt_USE_FILE})
++INCLUDE_DIRECTORIES(${Log4Qt_SOURCE_DIR}/src)
++LINK_DIRECTORIES(${Log4Qt_BINARY_DIR}/bin)
++SET(Log4Qt_LIBRARIES ${Log4Qt_BINARY_DIR}/bin/libLog4Qt.a)
+ 
+ # CMake modules
+ SET(CMAKE_MODULE_PATH ${CTKCore_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})

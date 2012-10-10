@@ -1,0 +1,91 @@
+Description: Upstream changes introduced in version 0.1.0-3
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ ctk (0.1.0-3) experimental; urgency=low
+ .
+   * compile log4qt with -fPIC on all archs (Closes: #634780)
+   * build with  -DCTK_LIB_ImageProcessing/ITK/Core:BOOL=ON
+   * build with  -DCTK_LIB_Widgets:BOOL=ON
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Dominique Belhachemi <domibel@debian.org>
+Bug-Debian: http://bugs.debian.org/634780
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- ctk-0.1.0.orig/Libs/ImageProcessing/ITK/Core/target_libraries.cmake
++++ ctk-0.1.0/Libs/ImageProcessing/ITK/Core/target_libraries.cmake
+@@ -5,6 +5,6 @@
+ #
+ 
+ SET(target_libraries
+-  ITK_LIBRARIES
++#  ITK_LIBRARIES
+   CTKCore
+   )
+--- ctk-0.1.0.orig/Libs/ImageProcessing/ITK/Core/CMakeLists.txt
++++ ctk-0.1.0/Libs/ImageProcessing/ITK/Core/CMakeLists.txt
+@@ -3,6 +3,7 @@ PROJECT(CTKImageProcessingITKCore)
+ #
+ # 3rd party dependencies
+ #
++FIND_PACKAGE(ITK REQUIRED)
+ INCLUDE(${ITK_USE_FILE})
+ 
+ #
+@@ -40,7 +41,7 @@ ctkMacroBuildLib(
+   SRCS ${KIT_SRCS}
+   MOC_SRCS ${KIT_MOC_SRCS}
+   UI_FORMS ${KIT_UI_FORMS}
+-  TARGET_LIBRARIES ${KIT_target_libraries}
++  TARGET_LIBRARIES ${KIT_target_libraries} ITKCommon
+   RESOURCES ${KIT_resources}
+   LIBRARY_TYPE ${CTK_LIBRARY_MODE}
+   )
+--- ctk-0.1.0.orig/Libs/Core/CMakeLists.txt
++++ ctk-0.1.0/Libs/Core/CMakeLists.txt
+@@ -5,7 +5,7 @@ PROJECT(CTKCore)
+ #
+ INCLUDE_DIRECTORIES(${Log4Qt_SOURCE_DIR}/src)
+ LINK_DIRECTORIES(${Log4Qt_BINARY_DIR}/bin)
+-SET(Log4Qt_LIBRARIES ${Log4Qt_BINARY_DIR}/bin/libLog4Qt.a)
++SET(Log4Qt_LIBRARIES ${Log4Qt_BINARY_DIR}/bin/libLog4Qt.a)#
+ 
+ # CMake modules
+ SET(CMAKE_MODULE_PATH ${CTKCore_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
+--- ctk-0.1.0.orig/Utilities/Log4Qt/CMakeLists.txt
++++ ctk-0.1.0/Utilities/Log4Qt/CMakeLists.txt
+@@ -18,7 +18,7 @@ ENDFOREACH()
+ #-----------------------------------------------------------------------------
+ # Library type - Statically built
+ #
+-set(BUILD_SHARED_LIBS FALSE)
++set(BUILD_SHARED_LIBS FALSE)#
+ 
+ #-----------------------------------------------------------------------------
+ # Set symbol visibility Flags
+@@ -118,9 +118,9 @@ add_library(${PROJECT_NAME}
+ # used when making a shared object; recompile with -fPIC
+ # See http://www.cmake.org/pipermail/cmake/2007-May/014350.html
+ #
+-IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
++#IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+   SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-fPIC")
+-ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
++#ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+ 
+ #-----------------------------------------------------------------------------
+ # Install rules

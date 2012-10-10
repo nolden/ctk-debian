@@ -1,0 +1,30 @@
+#!/bin/sh
+set -ex
+
+PACKAGE=ctk
+
+VERSION=${VERSION:-$2}
+TARFILE=${TARFILE:-$3}
+
+if [ -z ${VERSION}]; then
+VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)-[^-]*$/\1/p'`
+fi
+
+REVISION=`echo $VERSION | sed -e 's/^.*svn//g'`
+
+
+if [ -z ${TARFILE}]; then
+TARFILE=${PACKAGE}_${VERSION}.orig.tar.gz
+fi
+
+FOLDER=${PACKAGE}-${VERSION}
+
+
+git clone https://github.com/commontk/CTK.git ${FOLDER}
+rm -rf ${FOLDER}/.git
+git clone https://github.com/commontk/Log4Qt.git ${FOLDER}/Utilities/Log4Qt
+rm -rf ${FOLDER}/Utilities/Log4Qt/.git
+
+
+GZIP=-9 tar czf ${TARFILE} ${FOLDER}
+rm -rf ${FOLDER}

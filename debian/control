@@ -1,0 +1,66 @@
+Source: ctk
+Priority: optional
+Maintainer: Debian Med Packaging Team <debian-med-packaging@lists.alioth.debian.org>
+Uploaders: Mathieu Malaterre <mathieu.malaterre@gmail.com>
+DM-Upload-Allowed: yes
+Build-Depends: debhelper (>= 8), cmake (>= 2.8.2), cdbs, libqt4-dev, libdcmtk2-dev,
+ libinsighttoolkit3-dev, libgdcm2-dev, zlib1g-dev
+#, libvtk5-dev
+#, libpythonqt2-dev, python-dev
+Standards-Version: 3.9.2
+Section: libs
+Homepage: http://www.commontk.org/
+#Vcs-Git: git://git.debian.org/collab-maint/ctk.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/ctk.git;a=summary
+
+Package: libctk-dev
+Section: libdevel
+Architecture: any
+Depends: libctk0.1 (= ${binary:Version}), ${misc:Depends}
+Description: toolkit for medical imaging apllication development - devel
+ The goals of CTK are as follows:
+    * Provide a unified set of basic programming constructs that are useful for
+      medical imaging applications development
+    * Facilitate the exchange and combination of code and data
+    * Document, integrate, and adapt successful solutions
+    * Avoid the duplication of code and data
+    * Continuously extend to new tasks within the scope of the toolkit
+      (medical imaging) without burdening existing tasks
+ .
+ This package provides the CTK header files required to compile C++ programs
+ that use CTK.
+
+Package: libctk0.1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: toolkit for medical imaging apllication development - runtime
+ The goals of CTK are as follows:
+    * Provide a unified set of basic programming constructs that are useful for
+      medical imaging applications development
+    * Facilitate the exchange and combination of code and data
+    * Document, integrate, and adapt successful solutions
+    * Avoid the duplication of code and data
+    * Continuously extend to new tasks within the scope of the toolkit
+      (medical imaging) without burdening existing tasks 
+ .
+ This package provides the runtime binaries for CTK
+
+Package: libctk0.1-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends:
+    libctk0.1 (= ${binary:Version}),
+    ${misc:Depends}
+Description: debugging symbols for libctk0.1
+ The goals of CTK are as follows:
+    * Provide a unified set of basic programming constructs that are useful for
+      medical imaging applications development
+    * Facilitate the exchange and combination of code and data
+    * Document, integrate, and adapt successful solutions
+    * Avoid the duplication of code and data
+    * Continuously extend to new tasks within the scope of the toolkit
+      (medical imaging) without burdening existing tasks
+ .
+ This package contains the debugging symbols for libctk0.1

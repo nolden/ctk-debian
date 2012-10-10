@@ -1,0 +1,20 @@
+ctk (0.1.0-4) experimental; urgency=low
+
+  * Changed maintainer and uploader
+  * build with  -DCTK_APP_ctkCLIPluginExplorer:BOOL=ON
+
+ -- Dominique Belhachemi <domibel@debian.org>  Tue, 26 Jul 2011 20:04:04 -0400
+
+ctk (0.1.0-3) experimental; urgency=low
+
+  * compile log4qt with -fPIC on all archs (Closes: #634780)
+  * build with  -DCTK_LIB_ImageProcessing/ITK/Core:BOOL=ON
+  * build with  -DCTK_LIB_Widgets:BOOL=ON
+
+ -- Dominique Belhachemi <domibel@debian.org>  Fri, 22 Jul 2011 19:48:05 -0400
+
+ctk (0.1.0-2) experimental; urgency=low
+
+  * Initial release (Closes: #601180)
+
+ -- Dominique Belhachemi <domibel@debian.org>  Thu, 27 Jan 2011 19:25:00 -0500

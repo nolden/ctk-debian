@@ -1,0 +1,4 @@
+libctk0.1: package-name-doesnt-match-sonames libCTKCore0.1 libCTKDummyPlugin0.1 libCTKPluginFramework0.1
+# Upstream is mentioning the "GNU General Public License" in their non-GPL license
+libctk0.1: copyright-should-refer-to-common-license-file-for-gpl
+

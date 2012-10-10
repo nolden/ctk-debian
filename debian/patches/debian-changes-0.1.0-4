@@ -1,0 +1,115 @@
+Description: Upstream changes introduced in version 0.1.0-4
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ ctk (0.1.0-4) experimental; urgency=low
+ .
+   * Changed maintainer and uploader
+   * build with  -DCTK_APP_ctkCLIPluginExplorer:BOOL=ON
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Dominique Belhachemi <domibel@debian.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- ctk-0.1.0.orig/Libs/Visualization/VTK/Core/target_libraries.cmake
++++ ctk-0.1.0/Libs/Visualization/VTK/Core/target_libraries.cmake
+@@ -5,6 +5,5 @@
+ #
+ 
+ SET(target_libraries
+-  VTK_LIBRARIES
+   CTKCore
+-  )
+\ No newline at end of file
++  )
+--- ctk-0.1.0.orig/Libs/Visualization/VTK/Core/CMakeLists.txt
++++ ctk-0.1.0/Libs/Visualization/VTK/Core/CMakeLists.txt
+@@ -3,6 +3,7 @@ PROJECT(CTKVisualizationVTKCore)
+ #
+ # 3rd party dependencies
+ #
++FIND_PACKAGE(VTK REQUIRED)
+ INCLUDE(${VTK_USE_FILE})
+ 
+ #
+@@ -79,7 +80,7 @@ ctkMacroBuildLib(
+   SRCS ${KIT_SRCS}
+   MOC_SRCS ${KIT_MOC_SRCS}
+   UI_FORMS ${KIT_UI_FORMS}
+-  TARGET_LIBRARIES ${KIT_target_libraries}
++  TARGET_LIBRARIES ${KIT_target_libraries} vtkCommon vtkFiltering vtkHybrid
+   RESOURCES ${KIT_resources}
+   LIBRARY_TYPE ${CTK_LIBRARY_MODE}
+   )
+--- ctk-0.1.0.orig/Libs/Scripting/Python/Core/CMakeLists.txt
++++ ctk-0.1.0/Libs/Scripting/Python/Core/CMakeLists.txt
+@@ -50,6 +50,8 @@ CONFIGURE_FILE(
+ # The following macro will read the target libraries from the file 'target_libraries.cmake'
+ ctkFunctionGetTargetLibraries(KIT_target_libraries)
+ 
++INCLUDE_DIRECTORIES(/usr/include/PythonQt/)
++
+ # Link against vtkPython if required
+ IF(CTK_LIB_Scripting/Python/Core_PYTHONQT_USE_VTK)
+   LIST(APPEND KIT_target_libraries vtkPythonCore)
+--- ctk-0.1.0.orig/Libs/DICOM/Core/ctkDICOMIndexer.cpp
++++ ctk-0.1.0/Libs/DICOM/Core/ctkDICOMIndexer.cpp
+@@ -31,6 +31,14 @@
+ #include <QDebug>
+ #include <QPixmap>
+ 
++#define DCM_PatientsName DcmTagKey(0x0010, 0x0010)
++#define DCM_PatientsBirthDate DcmTagKey(0x0010, 0x0030)
++#define DCM_PatientsBirthTime DcmTagKey(0x0010, 0x0032)
++#define DCM_PatientsSex DcmTagKey(0x0010, 0x0040)
++#define DCM_PatientsAge DcmTagKey(0x0010, 0x1010)
++#define DCM_PerformingPhysiciansName DcmTagKey(0x0008, 0x1050)
++#define DCM_ReferringPhysiciansName DcmTagKey(0x0008, 0x0090)
++
+ 
+ // ctkDICOM includes
+ #include "ctkDICOMIndexer.h"
+--- ctk-0.1.0.orig/Libs/DICOM/Core/CMakeLists.txt
++++ ctk-0.1.0/Libs/DICOM/Core/CMakeLists.txt
+@@ -84,6 +84,9 @@ set (DCMQRSCP_STORE_DIR ${CMAKE_CURRENT_
+ CONFIGURE_FILE( Resources/dcmqrscp.cfg.in dcmqrscp.cfg )
+ set (DCMQRSCP_CONFIG ${CMAKE_CURRENT_BINARY_DIR}/dcmqrscp.cfg)
+ 
++INCLUDE_DIRECTORIES( /usr/include/dcmtk/dcmimgle/ )
++INCLUDE_DIRECTORIES( /usr/include/dcmtk/dcmdata/ )
++
+ ctkMacroBuildLib(
+   NAME ${PROJECT_NAME}
+   EXPORT_DIRECTIVE ${KIT_export_directive}
+--- ctk-0.1.0.orig/Libs/DICOM/Core/ctkDICOMDatabase.cpp
++++ ctk-0.1.0/Libs/DICOM/Core/ctkDICOMDatabase.cpp
+@@ -20,6 +20,16 @@
+ 
+ #include <stdexcept>
+ 
++
++#define DCM_PatientsName DcmTagKey(0x0010, 0x0010)
++#define DCM_PatientsBirthDate DcmTagKey(0x0010, 0x0030)
++#define DCM_PatientsBirthTime DcmTagKey(0x0010, 0x0032)
++#define DCM_PatientsSex DcmTagKey(0x0010, 0x0040)
++#define DCM_PatientsAge DcmTagKey(0x0010, 0x1010)
++#define DCM_PerformingPhysiciansName DcmTagKey(0x0008, 0x1050)
++#define DCM_ReferringPhysiciansName DcmTagKey(0x0008, 0x0090)
++
++
+ // Qt includes
+ #include <QSqlQuery>
+ #include <QSqlRecord>
