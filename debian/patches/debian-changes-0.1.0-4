@@ -24,52 +24,32 @@ Forwarded: <no|not-needed|url proving that it has been forwarded>
 Reviewed-By: <name and email of someone who approved the patch>
 Last-Update: <YYYY-MM-DD>
 
---- ctk-0.1.0.orig/Libs/Visualization/VTK/Core/target_libraries.cmake
-+++ ctk-0.1.0/Libs/Visualization/VTK/Core/target_libraries.cmake
+--- a/Libs/Visualization/VTK/Core/target_libraries.cmake
++++ b/Libs/Visualization/VTK/Core/target_libraries.cmake
 @@ -5,6 +5,5 @@
  #
  
- SET(target_libraries
+ set(target_libraries
 -  VTK_LIBRARIES
    CTKCore
 -  )
 \ No newline at end of file
 +  )
---- ctk-0.1.0.orig/Libs/Visualization/VTK/Core/CMakeLists.txt
-+++ ctk-0.1.0/Libs/Visualization/VTK/Core/CMakeLists.txt
-@@ -3,6 +3,7 @@ PROJECT(CTKVisualizationVTKCore)
+--- a/Libs/Visualization/VTK/Core/CMakeLists.txt
++++ b/Libs/Visualization/VTK/Core/CMakeLists.txt
+@@ -3,6 +3,7 @@
  #
  # 3rd party dependencies
  #
-+FIND_PACKAGE(VTK REQUIRED)
- INCLUDE(${VTK_USE_FILE})
++find_package(VTK REQUIRED)
+ include(${VTK_USE_FILE})
  
- #
-@@ -79,7 +80,7 @@ ctkMacroBuildLib(
-   SRCS ${KIT_SRCS}
-   MOC_SRCS ${KIT_MOC_SRCS}
-   UI_FORMS ${KIT_UI_FORMS}
--  TARGET_LIBRARIES ${KIT_target_libraries}
-+  TARGET_LIBRARIES ${KIT_target_libraries} vtkCommon vtkFiltering vtkHybrid
-   RESOURCES ${KIT_resources}
-   LIBRARY_TYPE ${CTK_LIBRARY_MODE}
-   )
---- ctk-0.1.0.orig/Libs/Scripting/Python/Core/CMakeLists.txt
-+++ ctk-0.1.0/Libs/Scripting/Python/Core/CMakeLists.txt
-@@ -50,6 +50,8 @@ CONFIGURE_FILE(
- # The following macro will read the target libraries from the file 'target_libraries.cmake'
- ctkFunctionGetTargetLibraries(KIT_target_libraries)
+ if(CTK_LIB_Scripting/Python/Core AND CTK_LIB_Scripting/Python/Core_PYTHONQT_USE_VTK)
+--- a/Libs/DICOM/Core/ctkDICOMIndexer.cpp
++++ b/Libs/DICOM/Core/ctkDICOMIndexer.cpp
+@@ -70,6 +70,14 @@
  
-+INCLUDE_DIRECTORIES(/usr/include/PythonQt/)
-+
- # Link against vtkPython if required
- IF(CTK_LIB_Scripting/Python/Core_PYTHONQT_USE_VTK)
-   LIST(APPEND KIT_target_libraries vtkPythonCore)
---- ctk-0.1.0.orig/Libs/DICOM/Core/ctkDICOMIndexer.cpp
-+++ ctk-0.1.0/Libs/DICOM/Core/ctkDICOMIndexer.cpp
-@@ -31,6 +31,14 @@
- #include <QDebug>
- #include <QPixmap>
+  };
  
 +#define DCM_PatientsName DcmTagKey(0x0010, 0x0010)
 +#define DCM_PatientsBirthDate DcmTagKey(0x0010, 0x0030)
@@ -80,12 +60,12 @@ Last-Update: <YYYY-MM-DD>
 +#define DCM_ReferringPhysiciansName DcmTagKey(0x0008, 0x0090)
 +
  
- // ctkDICOM includes
- #include "ctkDICOMIndexer.h"
---- ctk-0.1.0.orig/Libs/DICOM/Core/CMakeLists.txt
-+++ ctk-0.1.0/Libs/DICOM/Core/CMakeLists.txt
-@@ -84,6 +84,9 @@ set (DCMQRSCP_STORE_DIR ${CMAKE_CURRENT_
- CONFIGURE_FILE( Resources/dcmqrscp.cfg.in dcmqrscp.cfg )
+ //------------------------------------------------------------------------------
+ static ctkLogger logger("org.commontk.dicom.DICOMIndexer" );
+--- a/Libs/DICOM/Core/CMakeLists.txt
++++ b/Libs/DICOM/Core/CMakeLists.txt
+@@ -69,6 +69,9 @@
+ configure_file( Resources/dcmqrscp.cfg.in dcmqrscp.cfg )
  set (DCMQRSCP_CONFIG ${CMAKE_CURRENT_BINARY_DIR}/dcmqrscp.cfg)
  
 +INCLUDE_DIRECTORIES( /usr/include/dcmtk/dcmimgle/ )
@@ -94,8 +74,8 @@ Last-Update: <YYYY-MM-DD>
  ctkMacroBuildLib(
    NAME ${PROJECT_NAME}
    EXPORT_DIRECTIVE ${KIT_export_directive}
---- ctk-0.1.0.orig/Libs/DICOM/Core/ctkDICOMDatabase.cpp
-+++ ctk-0.1.0/Libs/DICOM/Core/ctkDICOMDatabase.cpp
+--- a/Libs/DICOM/Core/ctkDICOMDatabase.cpp
++++ b/Libs/DICOM/Core/ctkDICOMDatabase.cpp
 @@ -20,6 +20,16 @@
  
  #include <stdexcept>
@@ -111,5 +91,16 @@ Last-Update: <YYYY-MM-DD>
 +
 +
  // Qt includes
- #include <QSqlQuery>
- #include <QSqlRecord>
+ #include <QDate>
+ #include <QDebug>
+--- a/Libs/Scripting/Python/Core/CMakeLists.txt
++++ b/Libs/Scripting/Python/Core/CMakeLists.txt
+@@ -4,6 +4,8 @@
+ # See CTK/CMake/ctkMacroBuildLib.cmake for details
+ #
+ 
++include_directories(/usr/include/PythonQt/)
++
+ set(KIT_export_directive "CTK_SCRIPTING_PYTHON_CORE_EXPORT")
+ 
+ # Source files

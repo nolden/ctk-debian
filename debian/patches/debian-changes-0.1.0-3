@@ -26,27 +26,19 @@ Forwarded: <no|not-needed|url proving that it has been forwarded>
 Reviewed-By: <name and email of someone who approved the patch>
 Last-Update: <YYYY-MM-DD>
 
---- ctk-0.1.0.orig/Libs/ImageProcessing/ITK/Core/target_libraries.cmake
-+++ ctk-0.1.0/Libs/ImageProcessing/ITK/Core/target_libraries.cmake
+--- a/Libs/ImageProcessing/ITK/Core/target_libraries.cmake
++++ b/Libs/ImageProcessing/ITK/Core/target_libraries.cmake
 @@ -5,6 +5,6 @@
  #
  
- SET(target_libraries
+ set(target_libraries
 -  ITK_LIBRARIES
-+#  ITK_LIBRARIES
++  # ITK_LIBRARIES
    CTKCore
    )
---- ctk-0.1.0.orig/Libs/ImageProcessing/ITK/Core/CMakeLists.txt
-+++ ctk-0.1.0/Libs/ImageProcessing/ITK/Core/CMakeLists.txt
-@@ -3,6 +3,7 @@ PROJECT(CTKImageProcessingITKCore)
- #
- # 3rd party dependencies
- #
-+FIND_PACKAGE(ITK REQUIRED)
- INCLUDE(${ITK_USE_FILE})
- 
- #
-@@ -40,7 +41,7 @@ ctkMacroBuildLib(
+--- a/Libs/ImageProcessing/ITK/Core/CMakeLists.txt
++++ b/Libs/ImageProcessing/ITK/Core/CMakeLists.txt
+@@ -40,7 +40,7 @@
    SRCS ${KIT_SRCS}
    MOC_SRCS ${KIT_MOC_SRCS}
    UI_FORMS ${KIT_UI_FORMS}
@@ -55,20 +47,9 @@ Last-Update: <YYYY-MM-DD>
    RESOURCES ${KIT_resources}
    LIBRARY_TYPE ${CTK_LIBRARY_MODE}
    )
---- ctk-0.1.0.orig/Libs/Core/CMakeLists.txt
-+++ ctk-0.1.0/Libs/Core/CMakeLists.txt
-@@ -5,7 +5,7 @@ PROJECT(CTKCore)
- #
- INCLUDE_DIRECTORIES(${Log4Qt_SOURCE_DIR}/src)
- LINK_DIRECTORIES(${Log4Qt_BINARY_DIR}/bin)
--SET(Log4Qt_LIBRARIES ${Log4Qt_BINARY_DIR}/bin/libLog4Qt.a)
-+SET(Log4Qt_LIBRARIES ${Log4Qt_BINARY_DIR}/bin/libLog4Qt.a)#
- 
- # CMake modules
- SET(CMAKE_MODULE_PATH ${CTKCore_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
---- ctk-0.1.0.orig/Utilities/Log4Qt/CMakeLists.txt
-+++ ctk-0.1.0/Utilities/Log4Qt/CMakeLists.txt
-@@ -18,7 +18,7 @@ ENDFOREACH()
+--- a/Utilities/Log4Qt/CMakeLists.txt
++++ b/Utilities/Log4Qt/CMakeLists.txt
+@@ -20,7 +20,7 @@
  #-----------------------------------------------------------------------------
  # Library type - Statically built
  #
@@ -77,7 +58,7 @@ Last-Update: <YYYY-MM-DD>
  
  #-----------------------------------------------------------------------------
  # Set symbol visibility Flags
-@@ -118,9 +118,9 @@ add_library(${PROJECT_NAME}
+@@ -120,9 +120,9 @@
  # used when making a shared object; recompile with -fPIC
  # See http://www.cmake.org/pipermail/cmake/2007-May/014350.html
  #

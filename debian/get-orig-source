@@ -10,7 +10,7 @@ if [ -z ${VERSION}]; then
 VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)-[^-]*$/\1/p'`
 fi
 
-REVISION=`echo $VERSION | sed -e 's/^.*svn//g'`
+REVISION=`echo $VERSION | sed -e 's/^.*git[0-9]*\.//g'`
 
 
 if [ -z ${TARFILE}]; then
@@ -21,7 +21,9 @@ FOLDER=${PACKAGE}-${VERSION}
 
 
 git clone https://github.com/commontk/CTK.git ${FOLDER}
+git --git-dir ${FOLDER}/.git checkout $REVISION
 rm -rf ${FOLDER}/.git
+
 git clone https://github.com/commontk/Log4Qt.git ${FOLDER}/Utilities/Log4Qt
 rm -rf ${FOLDER}/Utilities/Log4Qt/.git
 

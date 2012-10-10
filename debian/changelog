@@ -1,3 +1,9 @@
+ctk (0.2.0+git20120918.f25f19e-1) experimental; urgency=low
+
+  * Upstream update 
+
+ -- Marco Nolden <dev@manol.org>  Wed, 10 Oct 2012 21:53:14 +0200
+
 ctk (0.1.0-4) experimental; urgency=low
 
   * Changed maintainer and uploader
