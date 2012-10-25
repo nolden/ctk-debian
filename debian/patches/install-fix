@@ -1,15 +1,12 @@
-Description: Upstream changes introduced in version 0.1.0-2
- This patch has been created by dpkg-source during the package build.
- Here's the last changelog entry, hopefully it gives details on why
- those changes were made:
+Description: Removed install prefix under lib directory
+
+ Removed the lib/ctk-x.x eprefix, put all libs in /usr/lib.
+ Removed version number from include directory
  .
- ctk (0.1.0-2) experimental; urgency=low
+ ctk (0.2.0+git20120918.f25f19e-1) experimental; urgency=low
  .
-   * Initial release (Closes: #601180)
- .
- The person named in the Author field signed this changelog entry.
-Author: Dominique Belhachemi <domibel@debian.org>
-Bug-Debian: http://bugs.debian.org/601180
+   * Upstream update
+Author: Marco Nolden <dev@manol.org>
 
 ---
 The information above should follow the Patch Tagging Guidelines, please
@@ -24,18 +21,9 @@ Forwarded: <no|not-needed|url proving that it has been forwarded>
 Reviewed-By: <name and email of someone who approved the patch>
 Last-Update: <YYYY-MM-DD>
 
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -57,6 +57,8 @@
- project(CTK)
- #-----------------------------------------------------------------------------
- 
-+ADD_SUBDIRECTORY(Utilities/Log4Qt)
-+
- #-----------------------------------------------------------------------------
- # Library mode: SHARED (default) or STATIC
- #
-@@ -140,10 +142,10 @@
+--- ctk-0.2.0+git20120918.f25f19e.orig/CMakeLists.txt
++++ ctk-0.2.0+git20120918.f25f19e/CMakeLists.txt
+@@ -140,10 +140,10 @@ if(NOT CTK_INSTALL_BIN_DIR)
    set(CTK_INSTALL_BIN_DIR "bin")
  endif()
  if(NOT CTK_INSTALL_LIB_DIR)
@@ -44,7 +32,7 @@ Last-Update: <YYYY-MM-DD>
  endif()
  if(NOT CTK_INSTALL_INCLUDE_DIR)
 -  set(CTK_INSTALL_INCLUDE_DIR "include/ctk-${CTK_MAJOR_VERSION}.${CTK_MINOR_VERSION}")
-+  set(CTK_INSTALL_INCLUDE_DIR "include")
++  set(CTK_INSTALL_INCLUDE_DIR "include/ctk")
  endif()
  if(NOT CTK_INSTALL_DOC_DIR)
    set(CTK_INSTALL_DOC_DIR "doc")

@@ -1,4 +1,2 @@
-debian-changes-0.1.0-2
-debian-changes-0.1.0-3
-debian-changes-0.1.0-4
-patch-again
+backport-of-dcmscu-from-dcmtk-3.6.1
+install-fix
