@@ -11,7 +11,7 @@ VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)-[^-]*$/\1/p'`
 fi
 
 REVISION=`echo $VERSION | sed -e 's/^.*git//g'`
-REVISION=b8307961b6420ccceb3c943e5958371f1d2ddcf6
+REVISION=4c54ae036848e51a11c895a0f432d8bf51563917
 
 if [ -z ${TARFILE}]; then
 TARFILE=${PACKAGE}_${VERSION}.orig.tar.gz
