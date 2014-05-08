@@ -16,14 +16,15 @@ Section: libdevel
 Architecture: any
 Depends: libctk0.1 (= ${binary:Version}), ${misc:Depends}
 Description: toolkit for medical imaging application development - devel
- The goals of CTK are as follows:
-    * Provide a unified set of basic programming constructs that are useful for
-      medical imaging applications development
-    * Facilitate the exchange and combination of code and data
-    * Document, integrate, and adapt successful solutions
-    * Avoid the duplication of code and data
-    * Continuously extend to new tasks within the scope of the toolkit
-      (medical imaging) without burdening existing tasks
+ CTK provides a number of C++ libraries containing functionality
+ commonly needed in medical imaging application development.
+ Many libraries also provide Python wrapped access to Qt classes.
+   * Qt widgets with visualization and medical imaging specific features like
+     material property and histogram viewing and editing.
+   * Qt API to DICOM networking, database, and processing classes and widgets based
+     on the DCMTK DICOM toolkit.
+   * An OSGi - like general purpose plugin framework for creating modular and service-oriented systems.
+   * A library to support processing through Command Line Interface helper applications.
  .
  This package provides the CTK header files required to compile C++ programs
  that use CTK.
@@ -33,14 +34,15 @@ Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: toolkit for medical imaging application development - runtime
- The goals of CTK are as follows:
-    * Provide a unified set of basic programming constructs that are useful for
-      medical imaging applications development
-    * Facilitate the exchange and combination of code and data
-    * Document, integrate, and adapt successful solutions
-    * Avoid the duplication of code and data
-    * Continuously extend to new tasks within the scope of the toolkit
-      (medical imaging) without burdening existing tasks 
+ CTK provides a number of C++ libraries containing functionality
+ commonly needed in medical imaging application development.
+ Many libraries also provide Python wrapped access to Qt classes.
+   * Qt widgets with visualization and medical imaging specific features like
+     material property and histogram viewing and editing.
+   * Qt API to DICOM networking, database, and processing classes and widgets based
+     on the DCMTK DICOM toolkit.
+   * An OSGi - like general purpose plugin framework for creating modular and service-oriented systems.
+   * A library to support processing through Command Line Interface helper applications.
  .
  This package provides the runtime binaries for CTK
 
@@ -52,13 +54,14 @@ Depends:
     libctk0.1 (= ${binary:Version}),
     ${misc:Depends}
 Description: debugging symbols for libctk0.1
- The goals of CTK are as follows:
-    * Provide a unified set of basic programming constructs that are useful for
-      medical imaging applications development
-    * Facilitate the exchange and combination of code and data
-    * Document, integrate, and adapt successful solutions
-    * Avoid the duplication of code and data
-    * Continuously extend to new tasks within the scope of the toolkit
-      (medical imaging) without burdening existing tasks
+ CTK provides a number of C++ libraries containing functionality
+ commonly needed in medical imaging application development.
+ Many libraries also provide Python wrapped access to Qt classes.
+   * Qt widgets with visualization and medical imaging specific features like
+     material property and histogram viewing and editing.
+   * Qt API to DICOM networking, database, and processing classes and widgets based
+     on the DCMTK DICOM toolkit.
+   * An OSGi - like general purpose plugin framework for creating modular and service-oriented systems.
+   * A library to support processing through Command Line Interface helper applications.
  .
  This package contains the debugging symbols for libctk0.1
