@@ -1,6 +1,6 @@
 --- ctk-0.1.0+git20131105~b8307961b6.orig/CMakeLists.txt
 +++ ctk-0.1.0+git20131105~b8307961b6/CMakeLists.txt
-@@ -321,6 +321,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
+@@ -369,6 +369,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
    endif()
  
    set(CTK_C_FLAGS "${cflags} ${CTK_C_FLAGS}")
