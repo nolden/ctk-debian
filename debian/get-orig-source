@@ -10,8 +10,8 @@ if [ -z ${VERSION}]; then
 VERSION=`dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)-[^-]*$/\1/p'`
 fi
 
-REVISION=`echo $VERSION | sed -e 's/^.*git[0-9]*\.//g'`
-
+REVISION=`echo $VERSION | sed -e 's/^.*git//g'`
+REVISION=b8307961b6420ccceb3c943e5958371f1d2ddcf6
 
 if [ -z ${TARFILE}]; then
 TARFILE=${PACKAGE}_${VERSION}.orig.tar.gz
@@ -19,14 +19,16 @@ fi
 
 FOLDER=${PACKAGE}-${VERSION}
 
+#
+# put orig.tar in ../tarballs (-> default location for svn-buildpackage)
+mkdir -p ../tarballs
+cd ../tarballs
 
 git clone https://github.com/commontk/CTK.git ${FOLDER}
-git --git-dir ${FOLDER}/.git checkout $REVISION
+cd ${FOLDER}
+git checkout ${REVISION}
+cd ..
 rm -rf ${FOLDER}/.git
 
-git clone https://github.com/commontk/Log4Qt.git ${FOLDER}/Utilities/Log4Qt
-rm -rf ${FOLDER}/Utilities/Log4Qt/.git
-
-
-GZIP=-9 tar czf ${TARFILE} ${FOLDER}
+GZIP="--best --no-name" tar czf ${TARFILE} ${FOLDER}
 rm -rf ${FOLDER}

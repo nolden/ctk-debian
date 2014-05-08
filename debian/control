@@ -1,23 +1,21 @@
 Source: ctk
 Priority: optional
 Maintainer: Debian Med Packaging Team <debian-med-packaging@lists.alioth.debian.org>
-Uploaders: Mathieu Malaterre <mathieu.malaterre@gmail.com>
-DM-Upload-Allowed: yes
-Build-Depends: debhelper (>= 8), cmake (>= 2.8.2), cdbs, libqt4-dev, libdcmtk2-dev,
- libinsighttoolkit3-dev, libgdcm2-dev, zlib1g-dev
-#, libvtk5-dev
-#, libpythonqt2-dev, python-dev
-Standards-Version: 3.9.2
+Uploaders: Dominique Belhachemi <domibel@debian.org>
+Build-Depends: debhelper (>= 9), cmake (>= 2.8.4), libqt4-dev, libqt4-opengl-dev,
+ libqtwebkit-dev, libdcmtk2-dev, libtiff-dev, libvtk5-dev, libvtk5-qt4-dev,
+ libinsighttoolkit4-dev
+Standards-Version: 3.9.4
 Section: libs
 Homepage: http://www.commontk.org/
-#Vcs-Git: git://git.debian.org/collab-maint/ctk.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/ctk.git;a=summary
+Vcs-Browser: http://anonscm.debian.org/viewvc/debian-med/trunk/packages/ctk/trunk/
+Vcs-Svn: svn://svn.debian.org/debian-med/trunk/packages/ctk/trunk/
 
 Package: libctk-dev
 Section: libdevel
 Architecture: any
 Depends: libctk0.1 (= ${binary:Version}), ${misc:Depends}
-Description: toolkit for medical imaging apllication development - devel
+Description: toolkit for medical imaging application development - devel
  The goals of CTK are as follows:
     * Provide a unified set of basic programming constructs that are useful for
       medical imaging applications development
@@ -34,7 +32,7 @@ Package: libctk0.1
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: toolkit for medical imaging apllication development - runtime
+Description: toolkit for medical imaging application development - runtime
  The goals of CTK are as follows:
     * Provide a unified set of basic programming constructs that are useful for
       medical imaging applications development

@@ -1,43 +1,56 @@
 #!/usr/bin/make -f
-
 DH_VERBOSE=0
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/cmake.mk
+DPKG_EXPORT_BUILDFLAGS = 1
+-include /usr/share/dpkg/buildflags.mk
 
-DEB_CMAKE_EXTRA_FLAGS = \
-	-DCMAKE_INSTALL_PREFIX:PATH=/usr \
-        -DCMAKE_BUILD_TYPE:STRING=Debug \
-        -DCMAKE_VERBOSE_MAKEFILE:BOOL=$(DH_VERBOSE) \
-        -DCMAKE_SKIP_RPATH:BOOL=OFF \
-        -DBUILD_TESTING:BOOL=OFF \
-        -DCTK_APP_ctkCLIPluginExplorer:BOOL=ON \
-        -DCTK_LIB_ImageProcessing/ITK/Core:BOOL=OFF \
-        -DCTK_LIB_Widgets:BOOL=ON \
-        -DCTK_LIB_Scripting/Python/Core:BOOL=OFF \
-        -DCTK_LIB_CommandLineModules/Backend/LocalProcess:BOOL=ON \
-        -DCTK_LIB_CommandLineModules/Frontend/QtGui:BOOL=ON \
-        -DCTK_LIB_PluginFramework:BOOL=ON \
-        -DCTK_LIB_DICOM/Widgets:BOOL=OFF \
-        -DCTK_PLUGIN_org.commontk.eventadmin:BOOL=ON \
-        -DCTK_PLUGIN_org.commontk.configadmin:BOOL=ON \
-        -DCTK_LIB_DICOM/Core:BOOL=OFF \
-        -DCTK_LIB_Visualization/VTK/Core:BOOL=OFF \
-        -DCTK_SUPERBUILD:BOOL=OFF 
+CMAKE_FLAGS = \
+    -DCMAKE_BUILD_TYPE:STRING=Debug \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=$(DH_VERBOSE) \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+    -DCMAKE_SKIP_RPATH:BOOL=ON \
+    -DBUILD_TESTING:BOOL=OFF \
+    -DCTK_ENABLE_DICOM:BOOL=ON \
+    -DDCMTK_DIR:PATH=/usr \
+    -DCTK_APP_ctkCommandLineModuleExplorer:BOOL=ON \
+    -DCTK_APP_ctkDICOM:BOOL=ON \
+    -DCTK_APP_ctkPluginBrowser:BOOL=ON \
+    -DCTK_APP_ctkPluginGenerator:BOOL=ON \
+    -DCTK_BUILD_QTDESIGNER_PLUGINS:BOOL=ON \
+    -DCTK_ENABLE_DICOM:BOOL=ON \
+    -DCTK_ENABLE_PluginFramework:BOOL=ON \
+    -DCTK_ENABLE_Python_Wrapping:BOOL=OFF \
+    -DCTK_ENABLE_Widgets:BOOL=ON \
+    -DCTK_LIB_CommandLineModules/Backend/FunctionPointer:BOOL=ON \
+    -DCTK_LIB_CommandLineModules/Backend/LocalProcess:BOOL=ON \
+    -DCTK_LIB_CommandLineModules/Core:BOOL=ON \
+    -DCTK_LIB_CommandLineModules/Frontend/QtGui:BOOL=ON \
+    -DCTK_LIB_CommandLineModules/Frontend/QtWebKit:BOOL=ON \
+    -DCTK_LIB_Core:BOOL=ON \
+    -DCTK_LIB_DICOM/Core:BOOL=ON \
+    -DCTK_LIB_DICOM/Widgets:BOOL=ON \
+    -DCTK_LIB_ImageProcessing/ITK/Core:BOOL=ON \
+    -DCTK_LIB_PluginFramework:BOOL=ON \
+    -DCTK_LIB_Scripting/Python/Core:BOOL=OFF \
+    -DCTK_LIB_Visualization/VTK/Core:BOOL=ON \
+    -DCTK_LIB_Visualization/VTK/Widgets:BOOL=ON \
+    -DCTK_LIB_Widgets:BOOL=ON \
+    -DCTK_PLUGIN_org.commontk.configadmin:BOOL=ON \
+    -DCTK_PLUGIN_org.commontk.eventadmin:BOOL=ON \
+    -DCTK_PLUGIN_org.commontk.log:BOOL=ON \
+    -DCTK_PLUGIN_org.commontk.metatype:BOOL=ON \
+    -DCTK_PLUGIN_org.commontk.plugingenerator.core:BOOL=ON \
+    -DCTK_PLUGIN_org.commontk.plugingenerator.ui:BOOL=ON \
+    -DCTK_SUPERBUILD:BOOL=OFF \
 
+pkg_run = libctk0.1
+pkg_dev = libctk-dev
 
-build/libctk0.1::
-	- cd $(DEB_BUILDDIR) && LD_LIBRARY_PATH=`pwd`/bin:$$LD_LIBRARY_PATH ctest -VV
+%:
+	dh $@ --parallel
 
-install/libctk0.1::
-	dh_install -plibctk0.1      debian/tmp/usr/lib/*.so.*                        usr/lib
-	dh_install -plibctk0.1      debian/tmp/usr/lib/*.a                           usr/lib
-
-
-install/libctk-dev::
-	dh_install -plibctk-dev   debian/tmp/usr/include/ctk/*                   usr/include/ctk
-	dh_install -plibctk-dev   debian/tmp/usr/lib/*.so                            usr/lib
-#	dh_install -plibctk-dev   debian/tmp/usr/lib/ctk-0.1/*.cmake                 usr/lib/ctk-0.1
+override_dh_auto_configure:
+	dh_auto_configure -- $(CMAKE_FLAGS)
 
 #install/ctk-examples::
 #	dh_installexamples -popenigtlink-examples Examples/
@@ -47,6 +60,13 @@ install/libctk-dev::
 #	doxygen $(DEB_BUILDDIR)/doxygen.config
 #	dh_install -plibctk-doc       $(DEB_BUILDDIR)/Documents/Doxygen/html         usr/share/doc/ctk-doc
 
+override_dh_install:
+	# Runtime Package
+	dh_install -p$(pkg_run) usr/lib/*.so.*
+	# Development Package
+	dh_install -p$(pkg_dev) usr/include
+	dh_install -p$(pkg_dev) usr/lib/lib*.so
+#	dh_install -plibctk-dev   debian/tmp/usr/lib/ctk-0.1/*.cmake                 usr/lib/ctk-0.1
 
 get-orig-source:
-	/bin/sh $(CURDIR)/debian/get-orig-source
+	./debian/get-orig-source

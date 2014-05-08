@@ -1,0 +1,11 @@
+--- ctk-0.1.0~git20131105.orig/CMakeLists.txt
++++ ctk-0.1.0~git20131105/CMakeLists.txt
+@@ -140,7 +140,7 @@ if(NOT CTK_INSTALL_BIN_DIR)
+   set(CTK_INSTALL_BIN_DIR "bin")
+ endif()
+ if(NOT CTK_INSTALL_LIB_DIR)
+-  set(CTK_INSTALL_LIB_DIR "lib/ctk-${CTK_MAJOR_VERSION}.${CTK_MINOR_VERSION}")
++  set(CTK_INSTALL_LIB_DIR "lib")
+ endif()
+ if(NOT CTK_INSTALL_INCLUDE_DIR)
+   set(CTK_INSTALL_INCLUDE_DIR "include/ctk-${CTK_MAJOR_VERSION}.${CTK_MINOR_VERSION}")

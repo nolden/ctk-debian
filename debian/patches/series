@@ -1,2 +1,3 @@
-backport-of-dcmscu-from-dcmtk-3.6.1
-install-fix
+log4cplus_namespace.patch
+lib_path.patch
+fix_dcmtk.patch
