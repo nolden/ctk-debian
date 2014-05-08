@@ -3,7 +3,7 @@ Priority: optional
 Maintainer: Debian Med Packaging Team <debian-med-packaging@lists.alioth.debian.org>
 Uploaders: Dominique Belhachemi <domibel@debian.org>
 Build-Depends: debhelper (>= 9), cmake (>= 2.8.4), libqt4-dev, libqt4-opengl-dev,
- libqtwebkit-dev, libdcmtk2-dev, libtiff-dev, libvtk5-dev, libvtk5-qt4-dev,
+ libqtwebkit-dev, libdcmtk2-dev, libtiff-dev, libvtk6-dev,
  libinsighttoolkit4-dev
 Standards-Version: 3.9.4
 Section: libs
